@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: app
-        image: acrabcreg2026test.azurecr.io/backend:b84d5bd3fcf779eb6cb2eb6177da0d1a95c5c31f
+        image: acrabcreg2026test.azurecr.io/backend:cb6ec03fe7a3b4ad73dce23f55b68a876fce673d
         ports:
         - containerPort: 8000
