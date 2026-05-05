@@ -4,8 +4,10 @@ metadata:
   name: backend-service
   namespace: default
 spec:
+  type: LoadBalancer
   selector:
     app: python-backend
   ports:
-  - port: 80
+  - protocol: TCP
+    port: 80
     targetPort: 8000
