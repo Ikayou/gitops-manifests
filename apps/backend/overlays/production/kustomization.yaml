@@ -1,5 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+    
 resources:
 - ../../base
+
 namespace: production
 namePrefix: prd-
 images:
@@ -7,6 +11,12 @@ images:
   newTag: 6955cbe09263b2ad51b718b6df7e411e5c291a52
 # nur in der Produktion soll die Anzahl der Replikas auf 3 erhöht werden
 patches:
-- path: patch-replicas.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+  - path: patch-replicas.yaml
+    
+  - target:
+        kind: Ingress
+        name: backend-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/http/paths/0/path
+        value: /prod

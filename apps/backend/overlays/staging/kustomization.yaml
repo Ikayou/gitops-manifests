@@ -1,9 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
 - ../../base
+
 namespace: staging
 namePrefix: stg-
 images:
 - name: acrabcreg2026test.azurecr.io/backend
   newTag: f8fb01bac5812c5235c1f631d9217e1e1307057b
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+
+patches:
+  - target:
+      kind: Ingress
+      name: backend-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/http/paths/0/path
+        value: /staging

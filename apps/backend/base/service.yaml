@@ -4,7 +4,7 @@ metadata:
   name: backend-service
   namespace: default
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: python-backend
   ports:

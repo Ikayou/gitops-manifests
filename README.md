@@ -36,3 +36,53 @@ kubectl get svc backend-service
 
 # Status der Pods prüfen
 kubectl get pods -n default
+```
+
+## Ingress-Controller & Traffic-Management
+Wir haben den Zugriff von mehreren `LoadBalancer`-IPs auf eine einzige, zentrale IP-Adresse umgestellt.
+*   **NGINX Ingress Controller**: Dient als zentrales Gateway für den gesamten Cluster.
+*   **Pfad-basiertes Routing**: Durch die Nutzung von Ingress-Ressourcen und Kustomize-Patches werden Anfragen basierend auf dem URL-Pfad verteilt:
+    *   `http://<Global-IP>/staging` ➔ **Staging-Umgebung** (Namespace: `staging`)
+    *   `http://<Global-IP>/prod` ➔ **Produktions-Umgebung** (Namespace: `production`)
+*   **Rewrite-Target**: Die Annotation `nginx.ingress.kubernetes.io/rewrite-target: /` ermöglicht es der Flask-App, Anfragen zu verarbeiten, ohne dass der Pfad-Präfix im Anwendungscode hartcodiert sein muss.
+
+## Aktualisierte Verzeichnisstruktur
+```text
+apps/backend/
+├── base/
+│   ├── deployment.yaml
+│   ├── kustomization.yaml
+│   ├── service.yaml        # Geändert auf ClusterIP (intern)
+│   └── ingress.yaml        # Definition des zentralen Gateways
+├── overlays/
+|    ├── staging/
+|    │   └── kustomization.yaml # Patch für /staging Pfad
+|    └── production/
+|        ├── kustomization.yaml # Patch für /prod Pfad & Replicas
+|        └── patch-replicas.yaml
+└── argocd/
+     └── backend-app.yaml 
+```
+
+## 🔍 Überprüfung der Infrastruktur
+Um die zentrale IP-Adresse des Gateways zu ermitteln, nutzen wir:
+```bash
+kubectl get svc -n ingress-basic
+```
+---
+
+## Cluster-Komponenten (Einmalige Einrichtung)
+Diese Komponenten werden direkt im AKS-Cluster installiert:
+
+*   **Argo CD**: Für das GitOps-basierte Deployment.
+    ```bash
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    ```
+*   **NGINX Ingress Controller**: Als zentrales Gateway (via Helm).
+    ```bash
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm repo update
+    helm install ingress-nginx ingress-nginx/ingress-nginx --create-namespace --namespace ingress-basic
+    ```
+---
