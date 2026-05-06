@@ -1,0 +1,7 @@
+resources:
+  - ../../base
+namespace: staging
+namePrefix: stg-
+images:
+  - name: acrabcreg2026test.azurecr.io/backend # das ist der Name des Images, wie er in der Deployment.yaml definiert ist
+    newTag: temp # hier wird das Image-Tag überschrieben, z.B. mit einem neuen Build-Tag oder "latest"

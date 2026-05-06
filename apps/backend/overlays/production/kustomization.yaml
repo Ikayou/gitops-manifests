@@ -1,0 +1,10 @@
+resources:
+  - ../../base
+namespace: production
+namePrefix: prd-
+images:
+  - name: acrabcreg2026test.azurecr.io/backend
+    newTag: temp
+# nur in der Produktion soll die Anzahl der Replikas auf 3 erhöht werden
+patches:
+  - path: patch-replicas.yaml

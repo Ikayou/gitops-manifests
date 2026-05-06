@@ -22,7 +22,7 @@ Diese Anwendung ist so konfiguriert, dass sie über einen **Azure Load Balancer*
 ## Nützliche Befehle zur Verwaltung
 ```bash
 # Externe IP-Adresse des Load Balancers abrufen
-kubectl get svc python-backend-service
+kubectl get svc backend-service
 
 # Status der Pods prüfen
 kubectl get pods -n default
