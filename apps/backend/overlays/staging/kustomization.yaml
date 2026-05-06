@@ -1,7 +1,9 @@
 resources:
-  - ../../base
+- ../../base
 namespace: staging
 namePrefix: stg-
 images:
-  - name: acrabcreg2026test.azurecr.io/backend # das ist der Name des Images, wie er in der Deployment.yaml definiert ist
-    newTag: temp # hier wird das Image-Tag überschrieben, z.B. mit einem neuen Build-Tag oder "latest"
+- name: acrabcreg2026test.azurecr.io/backend
+  newTag: f8fb01bac5812c5235c1f631d9217e1e1307057b
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
