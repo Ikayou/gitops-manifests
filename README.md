@@ -28,6 +28,7 @@ Dieses Projekt nutzt eine vollständige CI/CD-Pipeline:
 Damit der AKS-Cluster Images aus der ACR ziehen kann, muss die Berechtigung explizit gesetzt werden:
 ```bash
 az aks update --resource-group devsecops-rg --name devsecops-aks --attach-acr acrabcreg2026test
+```
 
 ## Nützliche Befehle zur Verwaltung
 ```bash
