@@ -8,15 +8,15 @@ namespace: production
 namePrefix: prd-
 images:
 - name: acrabcreg2026test.azurecr.io/backend
-  newTag: 6955cbe09263b2ad51b718b6df7e411e5c291a52
+  newTag: aba694ca96b7456d1cf5843f8e06b4a20e99400c
 # nur in der Produktion soll die Anzahl der Replikas auf 3 erhöht werden
-patches:
-  - path: patch-replicas.yaml
     
-  - target:
-        kind: Ingress
-        name: backend-ingress
-    patch: |-
-      - op: replace
-        path: /spec/rules/0/http/paths/0/path
-        value: /prod
+patches:
+- path: patch-replicas.yaml
+- patch: |-
+    - op: replace
+      path: /spec/rules/0/http/paths/0/path
+      value: /prod
+  target:
+    kind: Ingress
+    name: backend-ingress
