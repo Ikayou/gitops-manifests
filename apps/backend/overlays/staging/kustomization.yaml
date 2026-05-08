@@ -8,13 +8,13 @@ namespace: staging
 namePrefix: stg-
 images:
 - name: acrabcreg2026test.azurecr.io/backend
-  newTag: f8fb01bac5812c5235c1f631d9217e1e1307057b
+  newTag: aba694ca96b7456d1cf5843f8e06b4a20e99400c
 
 patches:
-  - target:
-      kind: Ingress
-      name: backend-ingress
-    patch: |-
-      - op: replace
-        path: /spec/rules/0/http/paths/0/path
-        value: /staging
+- patch: |-
+    - op: replace
+      path: /spec/rules/0/http/paths/0/path
+      value: /staging
+  target:
+    kind: Ingress
+    name: backend-ingress
